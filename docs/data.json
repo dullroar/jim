@@ -1,0 +1,345 @@
+{
+    "project": {
+        "name": "jim",
+        "description": "jim: a static site generator using Jade, io.js and Markdown",
+        "version": "0.0.1",
+        "url": "http://dullroar.com/"
+    },
+    "files": {
+        "modules\\config.js": {
+            "name": "modules\\config.js",
+            "modules": {
+                "config": 1
+            },
+            "classes": {
+                "config": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "modules\\fileutils.js": {
+            "name": "modules\\fileutils.js",
+            "modules": {
+                "fileutils": 1
+            },
+            "classes": {
+                "fileutils": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "modules\\render.js": {
+            "name": "modules\\render.js",
+            "modules": {
+                "render": 1
+            },
+            "classes": {
+                "render": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "config": {
+            "name": "config",
+            "submodules": {},
+            "classes": {
+                "config": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "modules\\config.js",
+            "line": 1,
+            "description": "Config file."
+        },
+        "fileutils": {
+            "name": "fileutils",
+            "submodules": {},
+            "classes": {
+                "fileutils": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "modules\\fileutils.js",
+            "line": 1,
+            "description": "Various file system utilities."
+        },
+        "render": {
+            "name": "render",
+            "submodules": {},
+            "classes": {
+                "render": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "modules\\render.js",
+            "line": 1,
+            "description": "Jade render helpers."
+        }
+    },
+    "classes": {
+        "config": {
+            "name": "config",
+            "shortname": "config",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "config",
+            "namespace": "",
+            "file": "modules\\config.js",
+            "line": 1,
+            "description": "Config file."
+        },
+        "fileutils": {
+            "name": "fileutils",
+            "shortname": "fileutils",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "fileutils",
+            "namespace": "",
+            "file": "modules\\fileutils.js",
+            "line": 1,
+            "description": "Various file system utilities."
+        },
+        "render": {
+            "name": "render",
+            "shortname": "render",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "render",
+            "namespace": "",
+            "file": "modules\\render.js",
+            "line": 1,
+            "description": "Jade render helpers."
+        }
+    },
+    "classitems": [
+        {
+            "file": "modules\\config.js",
+            "line": 12,
+            "description": "Where rendered/processed files will be output.",
+            "itemtype": "property",
+            "name": "outputDir",
+            "type": "String",
+            "default": "output/",
+            "class": "config",
+            "module": "config"
+        },
+        {
+            "file": "modules\\config.js",
+            "line": 20,
+            "description": "The source Markdown/HTML for pages.",
+            "itemtype": "property",
+            "name": "pagesDir",
+            "type": "String",
+            "default": "pages/",
+            "class": "config",
+            "module": "config"
+        },
+        {
+            "file": "modules\\config.js",
+            "line": 28,
+            "description": "The source Markdoan/HTML for posts.",
+            "itemtype": "property",
+            "name": "postsDir",
+            "type": "String",
+            "default": "posts/",
+            "class": "config",
+            "module": "config"
+        },
+        {
+            "file": "modules\\config.js",
+            "line": 36,
+            "description": "Jade templates.",
+            "itemtype": "property",
+            "name": "templatesDir",
+            "type": "String",
+            "default": "templates/",
+            "class": "config",
+            "module": "config"
+        },
+        {
+            "file": "modules\\config.js",
+            "line": 44,
+            "description": "Array of directories whose contents will be copied without\nmodification to the specified output location.",
+            "itemtype": "property",
+            "name": "copyDirs",
+            "type": "Array",
+            "example": [
+                "\n    config.copyDirs = [\n        {\n            source: 'css',\n            dest: config.outputDir + 'css'\n        },\n        ...\n    ];"
+            ],
+            "class": "config",
+            "module": "config"
+        },
+        {
+            "file": "modules\\config.js",
+            "line": 85,
+            "description": "A list of \"well-known\" tag names.",
+            "itemtype": "property",
+            "name": "metaNames",
+            "type": "Array",
+            "example": [
+                "\n    config.metaNames = ['author', 'created', 'slug', 'tags', 'title'];"
+            ],
+            "class": "config",
+            "module": "config"
+        },
+        {
+            "file": "modules\\config.js",
+            "line": 96,
+            "description": "The site's base address.",
+            "itemtype": "property",
+            "name": "siteAddress",
+            "type": "String",
+            "class": "config",
+            "module": "config"
+        },
+        {
+            "file": "modules\\config.js",
+            "line": 104,
+            "description": "The site's title.",
+            "itemtype": "property",
+            "name": "siteTitle",
+            "type": "String",
+            "class": "config",
+            "module": "config"
+        },
+        {
+            "file": "modules\\config.js",
+            "line": 112,
+            "description": "The site's subtitle.",
+            "itemtype": "property",
+            "name": "siteSubTitle",
+            "type": "String",
+            "class": "config",
+            "module": "config"
+        },
+        {
+            "file": "modules\\config.js",
+            "line": 120,
+            "description": "The default value to use as the author of posts and pages.",
+            "itemtype": "property",
+            "name": "author",
+            "type": "String",
+            "class": "config",
+            "module": "config"
+        },
+        {
+            "file": "modules\\fileutils.js",
+            "line": 15,
+            "description": "Delete a directory and all its children, then recreate the\nroot directory. Uses fs sync API to avoid race conditions\nwith later code that requires the directory to be there.",
+            "itemtype": "method",
+            "name": "clean",
+            "params": [
+                {
+                    "name": "dir",
+                    "description": "The directory to delete and recreate.",
+                    "type": "String"
+                }
+            ],
+            "class": "fileutils",
+            "module": "fileutils"
+        },
+        {
+            "file": "modules\\fileutils.js",
+            "line": 29,
+            "description": "Recursively copy the source directory to the destination\ndirectory.",
+            "itemtype": "method",
+            "name": "copyFiles",
+            "params": [
+                {
+                    "name": "fromDir",
+                    "description": "The source directory.",
+                    "type": "String"
+                },
+                {
+                    "name": "toDir",
+                    "description": "The target directory.",
+                    "type": "String"
+                }
+            ],
+            "class": "fileutils",
+            "module": "fileutils"
+        },
+        {
+            "file": "modules\\fileutils.js",
+            "line": 46,
+            "description": "Make sure a directory path ends with a trailing slash\nso that it can be concatenated worry-free with file\nnames.",
+            "itemtype": "method",
+            "name": "normalizeDir",
+            "params": [
+                {
+                    "name": "dir",
+                    "description": "The directory to check.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The directory with a trailing slash.",
+                "type": "String"
+            },
+            "class": "fileutils",
+            "module": "fileutils"
+        },
+        {
+            "file": "modules\\render.js",
+            "line": 19,
+            "description": "Metadata about posts.",
+            "itemtype": "property",
+            "name": "posts",
+            "type": "Array",
+            "class": "render",
+            "module": "render"
+        },
+        {
+            "file": "modules\\render.js",
+            "line": 27,
+            "description": "Process a directory of posts written in Markdown or HTML using Jade templates.",
+            "itemtype": "method",
+            "name": "renderPosts",
+            "params": [
+                {
+                    "name": "dir",
+                    "description": "The directory containing source posts to process.",
+                    "type": "String"
+                }
+            ],
+            "class": "render",
+            "module": "render"
+        },
+        {
+            "file": "modules\\render.js",
+            "line": 83,
+            "description": "Fill in the metadata for a post or page.",
+            "itemtype": "method",
+            "name": "getMetadata",
+            "params": [
+                {
+                    "name": "dir",
+                    "description": "The directory containing source posts to process.",
+                    "type": "String"
+                },
+                {
+                    "name": "file",
+                    "description": "The file being processed.",
+                    "type": "String"
+                }
+            ],
+            "class": "render",
+            "module": "render"
+        }
+    ],
+    "warnings": []
+}

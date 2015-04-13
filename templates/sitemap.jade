@@ -1,0 +1,9 @@
+- var isoDate = new Date(Date.now()).toISOString()
+<?xml version='1.0' encoding='utf-8'?>
+urlset(xmlns='http://www.sitemaps.org/schemas/sitemap/0.9')
+    - posts.sort(function (a, b) {if (a.created > b.created) {return -1} else if (a.created === b.created) { return 0} else return 1})
+        - for (var i = 0; i < posts.length; i++)
+            - if (posts[i].filetype.toLowerCase().startsWith('.htm'))
+                url
+                    loc= config.siteAddress + posts[i].slug
+                    lastmod= posts[i].modified

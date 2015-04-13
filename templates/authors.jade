@@ -1,0 +1,26 @@
+extends ./layout.jade
+
+block append vars
+
+block append content
+    div
+        - var authors = {}
+        - if (posts)
+            each post in posts
+                - if (post.author && post.filetype.toLowerCase().startsWith('.htm'))
+                    - if (!authors.hasOwnProperty(author))
+                        - authors[author] = {};
+                    - if (!authors[author].hasOwnProperty(post.title))
+                        - authors[author][post.title] = post.slug
+        - var authorNames = Object.getOwnPropertyNames(authors)
+        - authorNames.sort()
+        each authorName in authorNames
+            - if (authorName)
+                h4= authorName
+                ul
+                    -if (authors.hasOwnProperty(authorName))
+                        - var titles = Object.getOwnPropertyNames(authors[authorName]);
+                        - titles.sort()
+                        each title in titles
+                            li
+                                a(href='#{authors[authorName][title]}')= title

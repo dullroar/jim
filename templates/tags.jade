@@ -1,0 +1,28 @@
+extends ./layout.jade
+
+block append vars
+
+block append content
+    div
+        .btn-group
+            - var tags = {}
+            - if (posts)
+                each post in posts
+                    - if (post.tags)
+                        each tag in post.tags
+                            - if (!tags.hasOwnProperty(tag))
+                                - tags[tag] = {};
+                            - if (!tags[tag].hasOwnProperty(post.title))
+                                - tags[tag][post.title] = post.slug
+            - var tagNames = Object.getOwnPropertyNames(tags)
+            - tagNames.sort()
+            each tagName in tagNames
+                - if (tagName)
+                        button(type='button', class='btn btn-default dropdown-toggle', data-toggle='dropdown', aria-expanded='false') #{tagName}&nbsp;
+                        ul(class='dropdown-menu', role='menu')
+                            -if (tags.hasOwnProperty(tagName))
+                                - var titles = Object.getOwnPropertyNames(tags[tagName]);
+                                - titles.sort()
+                                each title in titles
+                                    li
+                                        a(href='#{tags[tagName][title]}')= title

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>fileutils - jim</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="jim" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/config.html">config</a></li>
+                                <li><a href="../classes/fileutils.html">fileutils</a></li>
+                                <li><a href="../classes/render.html">render</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/config.html">config</a></li>
+                                <li><a href="../modules/fileutils.html">fileutils</a></li>
+                                <li><a href="../modules/render.html">render</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1>fileutils Class</h1>
+<div class="box meta">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/modules_fileutils.js.html#l1"><code>modules\fileutils.js:1</code></a>
+        </div>
+
+            Module: <a href="../modules/fileutils.html">fileutils</a>
+
+</div>
+
+
+<div class="box intro">
+    <p>Various file system utilities.</p>
+
+</div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_clean">clean</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_copyFiles">copyFiles</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_normalizeDir">normalizeDir</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_clean" class="method item">
+    <h3 class="name"><code>clean</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>dir</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/modules_fileutils.js.html#l15"><code>modules\fileutils.js:15</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Delete a directory and all its children, then recreate the
+root directory. Uses fs sync API to avoid race conditions
+with later code that requires the directory to be there.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">dir</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <p>The directory to delete and recreate.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_copyFiles" class="method item">
+    <h3 class="name"><code>copyFiles</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>fromDir</code>
+                </li>
+                <li class="arg">
+                        <code>toDir</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/modules_fileutils.js.html#l29"><code>modules\fileutils.js:29</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Recursively copy the source directory to the destination
+directory.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">fromDir</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <p>The source directory.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">toDir</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <p>The target directory.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_normalizeDir" class="method item">
+    <h3 class="name"><code>normalizeDir</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>dir</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/modules_fileutils.js.html#l46"><code>modules\fileutils.js:46</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Make sure a directory path ends with a trailing slash
+so that it can be concatenated worry-free with file
+names.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">dir</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <p>The directory to check.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <p>The directory with a trailing slash.</p>
+
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

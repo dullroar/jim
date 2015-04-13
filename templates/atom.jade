@@ -1,0 +1,24 @@
+- var isoDate = new Date(Date.now()).toISOString()
+<?xml version='1.0' encoding='utf-8'?>
+feed(xmlns='http://www.w3.org/2005/Atom')
+    title(type='text')= config.siteTitle
+    subtitle(type='html')= config.siteSubTitle
+    updated= isoDate
+    id= config.siteAddress
+    link(rel='alternate', type='text/html', hreflang='en', href='#{config.siteAddress}')/
+    link(rel='self', type='application/atom+xml', href='#{config.siteAddress}#{slug}')/
+    rights= 'Copyright (c) ' + copyrightDate + ' - ' + author + ' - All Rights Reserved'
+    generator(uri='http://github.dom/dullroar/jim/', version='0.1.0') The "jim" platform
+    - posts.sort(function (a, b) {if (a.created > b.created) {return -1} else if (a.created === b.created) { return 0} else return 1})
+        - for (var i = 0; i < posts.length && i < 30; i++)
+            - if (posts[i].dir !== 'pages/')
+                entry
+                    title= posts[i].title
+                    link(rel='alternate', type='text/html', href='#{config.siteAddress}#{posts[i].slug}')/
+                    id= config.siteAddress + posts[i].slug
+                    - var publishedDate = posts[i].created.indexOf('T') > -1 ? posts[i].created : posts[i].created + 'T00:00:00.000Z'
+                        published= publishedDate
+                    author
+                        name= posts[i].author
+                        uri= config.siteAddress
+                    content(type='html') !{posts[i].post}
