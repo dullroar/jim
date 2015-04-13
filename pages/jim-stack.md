@@ -1,6 +1,6 @@
 [author]: # (Jim Lehmer)
 [title]: # (The "jim" stack)
-[created]: # (2015-03-25)
+[created]: # (3/25/2015)
 [tags]: # (jade iojs markdown)
 
 This site has been built with an eponymous pseudo-platform I call "jim" for fun:

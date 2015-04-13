@@ -116,7 +116,7 @@ Jade render helpers.
         meta.siteSubTitle = config.siteSubTitle;
         // Fill in any well-known values with defaults if they weren't in the file.
         meta.author = meta.author || config.author;
-        meta.created = meta.created || `${created.toISOString().substring(0, 10)}`;
+        meta.created = meta.created || `${created.toLocaleString()}`;
         meta.title = meta.title || basename;
         // Fill in the rest.
         meta.copyrightDate = meta.created.substring(0, 4);

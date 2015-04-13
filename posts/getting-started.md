@@ -1,6 +1,6 @@
 [author]: # (Jim Lehmer)
 [title]: # (Getting started)
-[created]: # (2015-04-13)
+[created]: # (4/13/2015)
 [tags]: # (jade iojs markdown)
 
 To get started using the "jim" stack to create a static web site, you will need to:
