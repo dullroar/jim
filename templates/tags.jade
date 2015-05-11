@@ -1,28 +1,19 @@
 extends ./layout.jade
 
 block append vars
+    - var author = ''
 
 block append content
     div
-        .btn-group
-            - var tags = {}
-            - if (posts)
-                each post in posts
-                    - if (post.tags)
-                        each tag in post.tags
-                            - if (!tags.hasOwnProperty(tag))
-                                - tags[tag] = {};
-                            - if (!tags[tag].hasOwnProperty(post.title))
-                                - tags[tag][post.title] = post.slug
-            - var tagNames = Object.getOwnPropertyNames(tags)
+        - if (allTags)
+            - var tagNames = Object.getOwnPropertyNames(allTags)
             - tagNames.sort()
-            each tagName in tagNames
-                - if (tagName)
-                        button(type='button', class='btn btn-default dropdown-toggle', data-toggle='dropdown', aria-expanded='false') #{tagName}&nbsp;
-                        ul(class='dropdown-menu', role='menu')
-                            -if (tags.hasOwnProperty(tagName))
-                                - var titles = Object.getOwnPropertyNames(tags[tagName]);
-                                - titles.sort()
-                                each title in titles
-                                    li
-                                        a(href='#{tags[tagName][title]}')= title
+                each tagName in tagNames
+                    - if (tagName)
+                        h4: a(href='#{sluggify(tagName)}')= tagName
+                        div.list-group
+                            - var posts = allTags[tagName];
+                            - posts.sort(function (a, b) {if (a.title < b.title) {return -1} else if (a.title === b.title) { return 0} else return 1})
+                            - for (var i = 0; i < posts.length; i++)
+                                - if (posts[i].slug.toLowerCase().endsWith('.html') ||posts[i].slug.toLowerCase().endsWith('.htm'))
+                                    a.list-group-item(href='#{posts[i].slug}')= posts[i].title

@@ -1,138 +1,162 @@
-/**
-Jade render helpers.
+/* jslint esnext: true */
+/* jslint node: true */
+"use strict";
 
-@module render
-@class render
-*/
+let fs = require('fs-extra-promise'),
+    jade = require('jade'),
+    marked = require('marked'),
+    path = require('path'),
+    config = require('./config'),
+    authors = {},    
+    posts = [],
+    tags = {};
 
-(function () {
-    /* jslint esnext: true */
-    /* jslint node: true */
-    "use strict";
+let getMetadata = function (dir, file, options) {
+    console.log(`getMetadata('${dir}', '${file}')`);
+    let basename = path.basename(file, path.extname(file)),
+        created = new Date(Date.now()),
+        meta = {},
+        markdown,
+        tokens;
 
-    var fs = require('fs-extra-promise'),
-        jade = require('jade'),
-        marked = require('marked'),
-        path = require('path'),
-        config = require('./config');
+    markdown = fs.readFileSync(`${dir}${file}`, {
+        encoding: 'utf8'
+    });
+    tokens = marked.lexer(markdown);
+    // Find all "well-known" metadata attributes.
+    config.metaNames.forEach(function (metaName) {
+        if (tokens && tokens.links && tokens.links[metaName] && tokens.links[metaName].href && tokens.links[metaName].href === '#' && tokens.links[metaName].title) {
+            meta[metaName] = tokens.links[metaName].title;
 
-    /**
-    Metadata about posts.
-    
-    @property posts
-    @type Array
-    */
-    exports.posts = [];
-
-    /**
-    Process a directory of posts written in Markdown or HTML using Jade templates.
-    
-    @method renderPosts
-    @param {String} dir The directory containing source posts to process.
-    */
-    exports.renderPosts = function (dir) {
-        console.log(`renderPosts('${dir}')`);
-        var self = this;
-        fs.ensureDirSync(dir);
-        fs.readdirAsync(dir)
-        .map(function (file) {
-            let basename,
-                meta,
-                html,
-                options = {
-                    pretty: true,
-                    config: config
-                },
-                template;
-
-            basename = path.basename(file, path.extname(file));
-
-            // Look for a template named the same as the post or page file.
-            // Otherwise use post.jade by default.
-            try {
-                fs.statSync(`${config.templatesDir}${basename}.jade`);
-                template = `${basename}.jade`;
-            } catch (e) {
-                template = 'post.jade';
+            // Create an array of tags split on special characters.
+            if (metaName === 'tags') {
+                options.tags = tokens.links.tags.title.split(/\W/);
             }
-            
-            meta = self.getMetadata(dir, file);
-            options.author = meta.author;
-            options.created = meta.created || Date.now();
-            options.title = meta.title || basename;
-            options.tags = meta.tags;
-            options.copyrightDate = meta.copyrightDate || new Date(Date.now()).getFullYear().toString();
-            options.filename = template;
-            options.filetype = meta.filetype;
-            options.post = meta.post;
-            options.slug = meta.slug;
-            options.dir = meta.dir;
-            options.modified = meta.modified;
-            self.posts[file] = options;
-            options.posts = self.posts;
-            options.doctype = path.extname(meta.slug);
-            html = jade.renderFile(`${config.templatesDir}${template}`, options);
-            console.log(`${config.outputDir}${meta.slug}`);
-            return fs.writeFileAsync(`${config.outputDir}${meta.slug}`, html, {
-                mode: 0o664
-            });
-        })
-        .catch(logFSWriteFileError);
-    };
+        }
+    });
 
-    /**
-    Fill in the metadata for a post or page.
-    
-    @method getMetadata
-    @param {String} dir The directory containing source posts to process.
-    @param {String} file The file being processed.
-    */
-    exports.getMetadata = function (dir, file) {
-        let basename = path.basename(file, path.extname(file)),
-            created = new Date(Date.now()),
-            meta = {},
-            markdown,
-            tokens;
+    // Site wide metadata.
+    // Fill in any well-known values with defaults if they weren't in the file.
+    options.author = options.author || config.author;
+    options.created = options.created || `${created.toLocaleString()}`;
+    options.title = options.title || basename;
+    // Fill in the rest.
+    options.copyrightDate = created.getFullYear().toString();
+    options.dir = dir;
+    options.filename = file;
+    options.modified = fs.statSync(`${dir}${file}`).mtime.toISOString();
+    options.slug = options.slug || `${basename}.html`;
+    options.doctype = path.extname(options.slug);
+    options.filetype = path.extname(options.slug);
+    options.post = marked(markdown);
+    posts.push(options);
 
-        markdown = fs.readFileSync(`${dir}${file}`, {
-            encoding: 'utf8'
-        });
-        tokens = marked.lexer(markdown);
-        // Find all "well-known" metadata attributes.
-        config.metaNames.forEach(function (metaName) {
-            if (tokens && tokens.links && tokens.links[metaName] && tokens.links[metaName].href && tokens.links[metaName].href === '#' && tokens.links[metaName].title) {
-                meta[metaName] = tokens.links[metaName].title;
+    if (options.tags) {
+        for (let tag of options.tags) {
+            if (!tags.hasOwnProperty(tag)) {
+                tags[tag] = [];
+            }
 
-                // Create an array of tags split on special characters.
-                if (metaName === 'tags') {
-                    meta.tags = tokens.links.tags.title.split(/\W/);
+            tags[tag].push({ title: options.title, slug: options.slug });
+        }
+    }
+
+    if (!authors.hasOwnProperty(options.author)) {
+        authors[options.author] = [];
+    }
+
+    authors[options.author].push({ title: options.title, slug: options.slug });
+    return options;
+};
+
+let logRenderPostsError = function (err) {
+    if (err) {
+        console.error(`ERROR: renderPosts - ${err}`);
+    }
+};
+
+let renderLandingPages = function () {
+    console.log(`renderLandingPages()`);
+
+    if (config.landingPages) {
+        for (let pageType of config.landingPages) {
+            console.log(`${pageType}`);
+            for (let pageList in this[pageType]) {
+                if (pageList) {
+                    console.log(`${pageList}`);
+                    for (let page of this[pageType][pageList]) {
+                        console.log(`${page.title+','+page.slug}`);
+                    }
                 }
             }
-        });
-
-        // Site wide metadata.
-        meta.siteAddress = config.siteAddress;
-        meta.siteTitle = config.siteTitle;
-        meta.siteSubTitle = config.siteSubTitle;
-        // Fill in any well-known values with defaults if they weren't in the file.
-        meta.author = meta.author || config.author;
-        meta.created = meta.created || `${created.toLocaleString()}`;
-        meta.title = meta.title || basename;
-        // Fill in the rest.
-        meta.copyrightDate = meta.created.substring(0, 4);
-        meta.dir = dir;
-        meta.filename = file;
-        meta.modified = fs.statSync(`${dir}${file}`).mtime.toISOString();
-        meta.slug = meta.slug || `${basename}.html`;
-        meta.filetype = path.extname(meta.slug);
-        meta.post = marked(markdown);
-        this.posts.push(meta);
-        return meta;
-    };
-
-    var logFSWriteFileError = function (err) {
-        if (err) {
-            console.error(`fs.writeFile err: ${err}`);
         }
+    }
+};
+
+let renderFile = function (file) {
+    console.log(`renderFile('${file}')`);
+    let basename,
+        //dir = path.dirname(file),
+        dir = this.currentDir,
+        meta,
+        html,
+        options = {
+            pretty: true,
+            authors: this.authors,
+            config: this.config,
+            allTags: this.tags
+        },
+        template;
+
+    basename = path.basename(file, path.extname(file));
+
+    // Look for a template named the same as the post or page file.
+    // Otherwise use post.jade by default.
+    try {
+        fs.statSync(`${config.templatesDir}${basename}.jade`);
+        template = `${basename}.jade`;
+    } catch (e) {
+        template = 'post.jade';
+    }
+
+    getMetadata(dir, file, options);
+    posts[file] = options;
+    options.posts = this.posts;
+
+    try {            
+        html = jade.renderFile(`${config.templatesDir}${template}`, options);
+        return fs.writeFileAsync(`${config.outputDir}${options.slug}`, html, {
+            mode: 0o664
+        });
+    } catch (e) {
+        console.log(`ERROR: renderFile - ${e}`);
+    }
+};
+
+(function () {
+    exports.renderPosts = function () {
+        console.log(`renderPosts()`);
+        let promises,
+            self = this;        
+
+        for (let dir of config.postsDir) {
+            fs.ensureDirSync(dir);
+            let that = {
+                authors: authors,
+                config: config,
+                currentDir: dir,
+                posts: posts,
+                tags: tags
+            };
+            promises = fs.readdirAsync(dir)
+                .map(renderFile.bind(that))
+                .catch(logRenderPostsError);
+        }
+        
+        let that = {
+            authors: authors,
+            tags: tags
+        };
+        fs.Promise.settle(promises).then(renderLandingPages.bind(that));
     };
 })();

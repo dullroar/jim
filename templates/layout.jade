@@ -1,4 +1,5 @@
 - var createdDate = new Date(created)
+- var sluggify = function (input) { return input ? input.toLowerCase().split(/\W/).join('-') + '.html' : ''; }
 doctype html
 html(lang='en')
     meta(charset='utf-8')
@@ -39,7 +40,7 @@ html(lang='en')
             block foot
                 footer(class='well')
                     small(class='pull-left') Copyright &copy;&nbsp;
-                        span!= copyrightDate + '&nbsp;-&nbsp;' + author + '&nbsp;-&nbsp;All rights reserved.'
+                        span!= copyrightDate + '&nbsp;-&nbsp;' + (author || config.author) + '&nbsp;-&nbsp;All rights reserved.'
                     small(class='pull-right') Built using  
                         a(href='jim-stack.html') the "jim" stack.
 

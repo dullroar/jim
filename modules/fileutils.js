@@ -22,7 +22,7 @@ Various file system utilities.
     */
     exports.clean = function (dir) {
         console.log(`clean('${dir}')`);
-        fs.removeSync(dir)
+        fs.removeSync(dir);
         fs.ensureDirSync(dir);
     };
 

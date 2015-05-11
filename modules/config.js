@@ -18,21 +18,13 @@ Where rendered/processed files will be output.
 */
 config.outputDir = 'output/';
 /**
-The source Markdown/HTML for pages. 
-
-@property pagesDir
-@type String
-@default pages/
-*/
-config.pagesDir = 'pages/';
-/**
-The source Markdoan/HTML for posts.
+The source Markdoan/HTML for posts and pages.
 
 @property postsDir
 @type String
-@default posts/
+@default [ 'posts/', 'pages/' ]
 */
-config.postsDir = 'posts/';
+config.postsDir = ['posts/', 'pages/' ];
 /**
 Jade templates.
 
@@ -92,6 +84,17 @@ A list of "well-known" tag names.
 */
 config.metaNames = ['author', 'created', 'slug', 'tags', 'title'];
 
+// Landing pages
+/**
+A list of properties that hold data to create landing pages.
+
+@property landingPages
+@type Array
+@example
+    config.landingPages = ['authors', 'tags'];
+*/
+config.landingPages = ['authors', 'tags'];
+
 // Default metadata.
 /**
 The site's base address.
@@ -99,7 +102,7 @@ The site's base address.
 @property siteAddress
 @type String
 */
-config.siteAddress = 'http://yoursitehere.com/'
+config.siteAddress = 'http://yoursitehere.com/';
 
 /**
 The site's title.

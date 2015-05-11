@@ -1,7 +1,7 @@
 {
     "name": "jim",
     "description": "jim: a static site generator using Jade, io.js and Markdown",
-    "version": "0.0.1",
+    "version": "0.1.1",
     "url": "http://dullroar.com/",
     "options": {
         "outdir": "./docs",

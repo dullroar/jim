@@ -1,9 +1,10 @@
 {
     "name": "jim",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "jim - a minimal static site generator stack of Jade, io.js and Markdown.",
     "author": "Jim Lehmer",
     "dependencies": {
+        "bluebird": "~2.9.24",
         "fs-extra-promise": "~0.1.0",
         "jade": "~1.9.2",
         "marked": "~0.3.3",
