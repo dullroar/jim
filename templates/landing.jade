@@ -1,0 +1,12 @@
+extends ./layout.jade
+
+block append vars
+    - var author = ''
+
+block append content
+    div
+        - if (pageList)
+            - pageList.sort()
+                each page in pageList
+                    - if (page)
+                        h4: a(href='#{page.slug}')= page.title

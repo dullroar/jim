@@ -36,7 +36,10 @@ html(lang='en')
                     h1= title
                     h5!= author + ' <small>' + createdDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + '</small>'
                     - if (tags && tags.length)
-                        h6= 'Tags: ' + (tags)
+                        h6= 'Tags: '
+                            each tag in tags
+                                a(href='#{sluggify(tag)}')= tag
+                                span!= '&nbsp;'
             block foot
                 footer(class='well')
                     small(class='pull-left') Copyright &copy;&nbsp;

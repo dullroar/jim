@@ -26,7 +26,7 @@ let getMetadata = function (dir, file, options) {
     // Find all "well-known" metadata attributes.
     config.metaNames.forEach(function (metaName) {
         if (tokens && tokens.links && tokens.links[metaName] && tokens.links[metaName].href && tokens.links[metaName].href === '#' && tokens.links[metaName].title) {
-            meta[metaName] = tokens.links[metaName].title;
+            options[metaName] = tokens.links[metaName].title;
 
             // Create an array of tags split on special characters.
             if (metaName === 'tags') {
@@ -77,6 +77,14 @@ let logRenderPostsError = function (err) {
 
 let renderLandingPages = function () {
     console.log(`renderLandingPages()`);
+    let html,
+        options = {
+            pretty: true,
+            authors: this.authors,
+            config: this.config,
+            copyrightDate: new Date(Date.now()).getFullYear().toString(),
+            created: new Date(Date.now())
+        };
 
     if (config.landingPages) {
         for (let pageType of config.landingPages) {
@@ -87,6 +95,17 @@ let renderLandingPages = function () {
                     for (let page of this[pageType][pageList]) {
                         console.log(`${page.title+','+page.slug}`);
                     }
+                    
+                    try {
+                        options.pageList = this[pageType][pageList];
+                        options.title = pageList;
+                        html = jade.renderFile(`${config.templatesDir}landing.jade`, options);
+                        fs.writeFileSync(`${config.outputDir}${pageList}.html`, html, {
+                            mode: 0o664
+                        });
+                    } catch (e) {
+                        console.log(`ERROR: renderLandingPages - ${e}`);
+                    }
                 }
             }
         }
@@ -96,7 +115,6 @@ let renderLandingPages = function () {
 let renderFile = function (file) {
     console.log(`renderFile('${file}')`);
     let basename,
-        //dir = path.dirname(file),
         dir = this.currentDir,
         meta,
         html,
@@ -155,6 +173,7 @@ let renderFile = function (file) {
         
         let that = {
             authors: authors,
+            config: config,
             tags: tags
         };
         fs.Promise.settle(promises).then(renderLandingPages.bind(that));
